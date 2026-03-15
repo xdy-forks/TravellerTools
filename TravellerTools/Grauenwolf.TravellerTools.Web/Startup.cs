@@ -1,3 +1,5 @@
+using Grauenwolf.TravellerTools.Animals.AE;
+using Grauenwolf.TravellerTools.Animals.Mgt;
 using Grauenwolf.TravellerTools.Characters;
 using Grauenwolf.TravellerTools.Encounters;
 using Grauenwolf.TravellerTools.Equipment;
@@ -50,6 +52,9 @@ public class Startup
     {
         services.AddRazorPages();
         services.AddServerSideBlazor();
+
+        AnimalBuilderMgt.SetDataPath(AppDataPath);
+        AnimalBuilderAE.SetDataPath(AppDataPath);
 
         var mapService = new TravellerMapServiceLocator(false);
 
