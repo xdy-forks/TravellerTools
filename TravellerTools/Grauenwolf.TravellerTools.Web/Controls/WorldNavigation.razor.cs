@@ -23,12 +23,21 @@ partial class WorldNavigation
 
     protected bool IsCustom => MilieuCode == Milieu.Custom.Code;
     protected string? QueryParameters { get; private set; }
+    protected string TravellerWorldsUrl => TravellerWorldsUrlBuilder.Build(World, GetQuerySeed());
     [Inject] NavigationManager NavigationManager { get; set; } = null!;
 
     protected override void Initialized()
     {
         base.Initialized();
         QueryParameters = NavigationManager.QueryString();
+    }
+
+    int? GetQuerySeed()
+    {
+        if (NavigationManager.TryGetQueryString("seed", out int seed))
+            return seed;
+
+        return null;
     }
 
     /*
