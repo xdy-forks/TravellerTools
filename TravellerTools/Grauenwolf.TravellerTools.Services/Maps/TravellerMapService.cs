@@ -2,7 +2,6 @@
 using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Collections.Immutable;
-using System.Net;
 using Tortuga.Anchor;
 
 namespace Grauenwolf.TravellerTools.Maps;
@@ -159,8 +158,6 @@ public class TravellerMapService(bool filterUnpopulatedSectors, string milieu) /
     {
         if (m_SectorList != null)
             return m_SectorList;
-
-        ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
 
         string rawSectorList;
         try
