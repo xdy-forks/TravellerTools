@@ -5,18 +5,22 @@
 
 @inherits NullablePageBase<WorldModel>
 
-@if (Model != null)
+@{
+    var hasWorldInUrl = !string.IsNullOrWhiteSpace(Uwp)
+        || (!string.IsNullOrWhiteSpace(MilieuCode)
+            && !string.IsNullOrWhiteSpace(SectorHex)
+            && !string.IsNullOrWhiteSpace(PlanetHex));
+}
+
+@if (Model != null && hasWorldInUrl)
 {
     var current = Model.World;
 
     <h2>@current.Name</h2>
     <WorldNavigation CurrentPage="info" World="@Model.World" MilieuCode="@MilieuCode" />
-    <div>&nbsp;</div>
-    <h3>World Info</h3>
 
     <table class="gridtable">
         <tr><th>UWP</th><td colspan="6">@current.UWP</td></tr>
-        <tr><th>Starport</th><td>@current.StarportCode</td><td colspan="5" width="500">@current.StarportDescription</td></tr>
 
         @if (current.MilitaryBases.Count > 0)
         {
@@ -297,6 +301,12 @@
 else if (LoadFailed)
 {
     <h1>Error loading page.</h1>
+}
+else if (!hasWorldInUrl)
+{
+    <h2>World Info</h2>
+    <WorldPicker ShowWorldActionLinks="false" LoadSuffix="info" />
+    <p>Select a world above to view details.</p>
 }
 else
 {

@@ -22,7 +22,9 @@ partial class WorldNavigation
     }
 
     protected bool IsCustom => MilieuCode == Milieu.Custom.Code;
+    protected string LoadSuffix => string.IsNullOrWhiteSpace(CurrentPage) ? "info" : CurrentPage!;
     protected string? QueryParameters { get; private set; }
+    protected string? SectorHex => World.SectorX != null && World.SectorY != null ? $"{World.SectorX},{World.SectorY}" : null;
     protected string TravellerWorldsUrl => TravellerWorldsUrlBuilder.Build(World, GetQuerySeed());
     [Inject] NavigationManager NavigationManager { get; set; } = null!;
 

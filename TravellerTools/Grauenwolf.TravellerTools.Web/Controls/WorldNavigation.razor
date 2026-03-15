@@ -1,72 +1,34 @@
 ﻿@inherits ControlBase
 
 <div>
+    <WorldPicker SelectedMilieuCode="@MilieuCode" SelectedSectorHex="@SectorHex" SelectedWorldHex="@World.Hex" ShowWorldActionLinks="false" LoadSuffix="@LoadSuffix" />
     <table class="gridtable">
-        <tr>
-            <th>Planet</th>
-            <th>Subsector</th>
-            <th>Sector</th>
-            <th>Coordinates</th>
-        </tr>
         @if (IsCustom)
         {
             <tr>
+                <th>World</th>
                 <td>
-                    @(World.Name)
-                    <br />
+                    @World.Name (@World.UWP)
                     <a href="@TravellerWorldsUrl" target="_blank" rel="noopener noreferrer" title="Generate this world in Traveller Worlds.">
                         <span class="oi oi-map" aria-hidden="true" /> Traveller Worlds
                     </a>
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
             </tr>
         }
         else
         {
-            @*<tr>
-        <td><a href="@string.Format("https://wiki.travellerrpg.com/{0}_(world)", World.Name)" target="_blank" title="Search Traveller Wiki for this planet.">@World.Name</a></td>
-        <td><a href="@string.Format("https://wiki.travellerrpg.com/{0}_Subsector", World.SubsectorName)" target="_blank" title="Search Traveller Wiki for this subsector.">@World.SubsectorName</a></td>
-        <td><a href="@string.Format("https://wiki.travellerrpg.com/{0}_Sector", World.Sector)" target="_blank" title="Search Traveller Wiki for this sector.">@World.Sector</a></td>
-        <td><a href="@string.Format("http://travellermap.com/?scale=64&sx={0}&sy={1}&hx={2}&hy={3}&milieu={4}", World.SectorX, World.SectorY, World.HexX, World.HexY, ???)" target="_blank" title="Show planet in Traveller Map.">@World.SectorX,@World.SectorY Hex @World.Hex</a></td>
-        </tr>*@
             <tr>
+                <th>Location</th>
                 <td>
-                    @World.Name
-                    <br />
-                    <a href="@string.Format("https://wiki.travellerrpg.com/{0}_(world)", World.Name)" target="_blank" title="Search Traveller Wiki for this planet.">
-                        <span class="oi oi-globe" aria-hidden="true" /> TAS
-                    </a>
-                </td>
-                <td>
-                    @World.SubsectorName
-                    <br />
+                    @World.SubsectorName / @World.Sector - @World.SectorX,@World.SectorY Hex @World.Hex
                     <a href="@($"/world/{MilieuCode}/{World.SectorX},{World.SectorY}/subsector/{World.SubSectorIndex}/")">
-                        <span class="oi oi-list" aria-hidden="true" /> Index
+                        <span class="oi oi-list" aria-hidden="true" /> Subsector Index
                     </a>
-                    <a href="@($"https://wiki.travellerrpg.com/{World.SubsectorName}_Subsector")" target="_blank" title="Search Traveller Wiki for this subsector.">
-                        <span class="oi oi-globe" aria-hidden="true" /> TAS
-                    </a>
-                </td>
-                <td>
-                    @World.Sector
-                    <br />
                     <a href="@($"/world/{MilieuCode}/{World.SectorX},{World.SectorY}")">
-                        <span class="oi oi-list" aria-hidden="true" /> Index
+                        <span class="oi oi-list" aria-hidden="true" /> Sector Index
                     </a>
-                    <a href="@($"https://wiki.travellerrpg.com/{World.Sector}_Sector")" target="_blank" title="Search Traveller Wiki for this sector.">
-                        <span class="oi oi-globe" aria-hidden="true" /> TAS
-                    </a>
-                </td>
-
-                <td>
-
-                    @World.SectorX,@World.SectorY Hex @World.Hex
-                    <br />
-
                     <a href="@string.Format("http://travellermap.com/?scale=64&sx={0}&sy={1}&hx={2}&hy={3}&milieu={4}", World.SectorX, World.SectorY, World.HexX, World.HexY, MilieuCode)" target="_blank" title="Show planet in Traveller Map.">
-                        <span class="oi oi-map" aria-hidden="true" /> Map
+                        <span class="oi oi-map" aria-hidden="true" /> Traveller Map
                     </a>
                     <a href="@TravellerWorldsUrl" target="_blank" rel="noopener noreferrer" title="Generate this world in Traveller Worlds.">
                         <span class="oi oi-map" aria-hidden="true" /> Traveller Worlds
@@ -77,95 +39,104 @@
     </table>
     <table class="gridtable">
         <tr>
-            @if (CurrentPage == "info")
-            {
-                <th><span class="oi oi-globe" aria-hidden="true" /> Info</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "info" + QueryParameters)"><span class="oi oi-globe" aria-hidden="true" /> Info</a></th>
-            }
-            @if (CurrentPage == "starport")
-            {
-                <th><span class="oi oi-star" aria-hidden="true" /> Starport</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "starport" + QueryParameters)"><span class="oi oi-star" aria-hidden="true" /> Starport</a></th>
-            }
-            @if (CurrentPage == "trade")
-            {
-                <th><span class="oi oi-box" aria-hidden="true" /> Trade</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "trade" + QueryParameters)"><span class="oi oi-box" aria-hidden="true" /> Trade</a></th>
-            }
-
-            @if (CurrentPage == "travel")
-            {
-                <th><span class="oi oi-compass" aria-hidden="true" /> Travel</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "travel" + QueryParameters)"><span class="oi oi-compass" aria-hidden="true" /> Travel</a></th>
-            }
-        </tr>
-        <tr>
-            @if (CurrentPage == "store")
-            {
-                <th><span class="oi oi-cart" aria-hidden="true" /> Store</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "store" + QueryParameters)"><span class="oi oi-cart" aria-hidden="true" /> Store</a></th>
-            }
-            @if (CurrentPage == "animals")
-            {
-                <th><span class="oi oi-bug" aria-hidden="true" /> Animals</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "animals" + QueryParameters)"><span class="oi oi-bug" aria-hidden="true" /> Animals</a></th>
-            }
-            @if (CurrentPage == "encounters")
-            {
-                <th><span class="oi oi-people" aria-hidden="true" /> Encounters</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "encounters" + QueryParameters)"><span class="oi oi-puzzle-piece" aria-hidden="true" /> Encounters</a></th>
-            }
-            @if (CurrentPage == "character")
-            {
-                <th><span class="oi oi-person" aria-hidden="true" /> Character</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "character" + QueryParameters)"><span class="oi oi-person" aria-hidden="true" /> Character</a></th>
-            }
-            @if (CurrentPage == "contacts")
-            {
-                <th><span class="oi oi-people" aria-hidden="true" /> Contacts</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "contacts" + QueryParameters)"><span class="oi oi-people" aria-hidden="true" /> Contacts</a></th>
-            }
-            @if (CurrentPage == "crew")
-            {
-                <th><span class="oi oi-briefcase" aria-hidden="true" /> Crew</th>
-            }
-            else
-            {
-                <th><a href="@(BaseUrl +  "crew" + QueryParameters)"><span class="oi oi-briefcase" aria-hidden="true" /> Crew</a></th>
-            }
+            <th>Pages</th>
+            <td>
+                @if (CurrentPage == "info")
+                {
+                    <span><span class="oi oi-globe" aria-hidden="true" /> Info</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "info" + QueryParameters)"><span class="oi oi-globe" aria-hidden="true" /> Info</a>
+                }
+                |
+                @if (CurrentPage == "starport")
+                {
+                    <span><span class="oi oi-star" aria-hidden="true" /> Starport</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "starport" + QueryParameters)"><span class="oi oi-star" aria-hidden="true" /> Starport</a>
+                }
+                |
+                @if (CurrentPage == "trade")
+                {
+                    <span><span class="oi oi-box" aria-hidden="true" /> Trade</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "trade" + QueryParameters)"><span class="oi oi-box" aria-hidden="true" /> Trade</a>
+                }
+                |
+                @if (CurrentPage == "travel")
+                {
+                    <span><span class="oi oi-compass" aria-hidden="true" /> Travel</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "travel" + QueryParameters)"><span class="oi oi-compass" aria-hidden="true" /> Travel</a>
+                }
+                |
+                @if (CurrentPage == "store")
+                {
+                    <span><span class="oi oi-cart" aria-hidden="true" /> Store</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "store" + QueryParameters)"><span class="oi oi-cart" aria-hidden="true" /> Store</a>
+                }
+                |
+                @if (CurrentPage == "animals")
+                {
+                    <span><span class="oi oi-bug" aria-hidden="true" /> Animals</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "animals" + QueryParameters)"><span class="oi oi-bug" aria-hidden="true" /> Animals</a>
+                }
+                |
+                @if (CurrentPage == "encounters")
+                {
+                    <span><span class="oi oi-people" aria-hidden="true" /> Encounters</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "encounters" + QueryParameters)"><span class="oi oi-puzzle-piece" aria-hidden="true" /> Encounters</a>
+                }
+                |
+                @if (CurrentPage == "character")
+                {
+                    <span><span class="oi oi-person" aria-hidden="true" /> Character</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "character" + QueryParameters)"><span class="oi oi-person" aria-hidden="true" /> Character</a>
+                }
+                |
+                @if (CurrentPage == "contacts")
+                {
+                    <span><span class="oi oi-people" aria-hidden="true" /> Contacts</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "contacts" + QueryParameters)"><span class="oi oi-people" aria-hidden="true" /> Contacts</a>
+                }
+                |
+                @if (CurrentPage == "crew")
+                {
+                    <span><span class="oi oi-briefcase" aria-hidden="true" /> Crew</span>
+                }
+                else
+                {
+                    <a href="@(BaseUrl +  "crew" + QueryParameters)"><span class="oi oi-briefcase" aria-hidden="true" /> Crew</a>
+                }
+            </td>
         </tr>
 
         @if (!IsCustom && CurrentPage != "destination")
         {
             <tr>
-                <td colspan="6">Passengers, Freight, and Mail are available from the Travel screen.</td>
+                <td colspan="2">Passengers, Freight, and Mail are available from the Travel screen.</td>
             </tr>
         }
     </table>
